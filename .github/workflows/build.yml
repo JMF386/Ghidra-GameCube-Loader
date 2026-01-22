@@ -22,8 +22,10 @@ jobs:
     - name: Execute Gradle build
       run: gradle -PGHIDRA_INSTALL_DIR=${{ env.GHIDRA_INSTALL_DIR }} buildExtension
     - name: Release
-      uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
+      uses: svenstaro/upload-release-action@2.9.0
       with:
-        files: |
-          ./dist/GameCubeLoader-*.zip
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ./dist/GameCubeLoader-*.zip
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
